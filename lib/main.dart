@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 void main() {
   runApp(MyApp());
@@ -53,11 +54,27 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   final myController = TextEditingController();
+  String _selectedItem = 'Sun';
+  List _options = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   void _incrementCounter() {
     setState(() {
-      int _jumlah = int.parse(myController.text);
-      _counter += _jumlah;
+      if(myController.text.isNotEmpty){
+        int _jumlah = int.parse(myController.text);
+        _counter += _jumlah;
+      }
+      else{
+        Fluttertoast.showToast(
+            msg: "Harap masukkan angka",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.blue,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
       _counter++;
     });
   }
@@ -71,14 +88,66 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+      key: _scaffoldKey,
+      backgroundColor: Colors.tealAccent,
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+        leading: GestureDetector(
+          onTap: () {
+            Fluttertoast.showToast(
+                msg: "This is Center Short Toast",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0
+            );
+          },
+          child: Icon(
+            Icons.arrow_back,
+          ),
+        ),
+        actions: <Widget>[
+          GestureDetector(
+            onTap: () {
+              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                content: Text("Search"),
+              ));
+            },
+            child: Icon(
+              Icons.search,
+              size: 26.0,
+            ),
+          ),
+          PopupMenuButton(
+            itemBuilder: (BuildContext bc) {
+              return _options
+                  .map((day) => PopupMenuItem(
+                child: Text(day),
+                value: day,
+              ))
+                  .toList();
+            },
+            onSelected: (value) {
+              setState(() {
+                _selectedItem = value;
+              });
+            },
+          ),
+        ],
       ),
       body: Container(
         padding: EdgeInsets.all(4.0),
         margin: EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage('https://i.pinimg.com/originals/91/86/6b/91866b918c9cca0747f483a46943e926.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Center(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
@@ -107,13 +176,26 @@ class _MyHomePageState extends State<MyHomePage> {
                 '$_counter',
                 style: Theme.of(context).textTheme.headline4,
               ),
-              Text(
-                'Ini Text Pertama Saya saat belajar flutter. Sangat menyenangkan dapat belajar flutter dengan mudah dan menarik',
-                style: TextStyle(
-                  fontSize: 20,
+              GestureDetector(
+                onTap: (){
+                  Fluttertoast.showToast(
+                      msg: "Text dipilih",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.blue,
+                      textColor: Colors.white,
+                      fontSize: 16.0
+                  );
+                },
+                child: Text(
+                  'Ini Text Pertama Saya saat belajar flutter. Sangat menyenangkan dapat belajar flutter dengan mudah dan menarik',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
                 ),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
               ),
               Stack(
                 children: [
