@@ -1,6 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 void main() {
   runApp(MyApp());
@@ -62,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       if(myController.text.isNotEmpty){
         int _jumlah = int.parse(myController.text);
-        _counter += _jumlah;
+        _counter = _jumlah;
       }
       else{
         Fluttertoast.showToast(
@@ -75,7 +79,6 @@ class _MyHomePageState extends State<MyHomePage> {
             fontSize: 16.0
         );
       }
-      _counter++;
     });
   }
 
@@ -139,111 +142,125 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: Container(
-        padding: EdgeInsets.all(4.0),
-        margin: EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: NetworkImage('https://i.pinimg.com/originals/91/86/6b/91866b918c9cca0747f483a46943e926.jpg'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Center(
-          // Center is a layout widget. It takes a single child and positions it
-          // in the middle of the parent.
-          child: Column(
-            // Column is also a layout widget. It takes a list of children and
-            // arranges them vertically. By default, it sizes itself to fit its
-            // children horizontally, and tries to be as tall as its parent.
-            //
-            // Invoke "debug painting" (press "p" in the console, choose the
-            // "Toggle Debug Paint" action from the Flutter Inspector in Android
-            // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-            // to see the wireframe for each widget.
-            //
-            // Column has various properties to control how it sizes itself and
-            // how it positions its children. Here we use mainAxisAlignment to
-            // center the children vertically; the main axis here is the vertical
-            // axis because Columns are vertical (the cross axis would be
-            // horizontal).
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'You have pushed the button this many times:',
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blueAccent),
-              ),
-              Text(
-                '$_counter',
-                style: Theme.of(context).textTheme.headline4,
-              ),
-              GestureDetector(
-                onTap: (){
-                  Fluttertoast.showToast(
-                      msg: "Text dipilih",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: Colors.blue,
-                      textColor: Colors.white,
-                      fontSize: 16.0
-                  );
-                },
-                child: Text(
-                  'Ini Text Pertama Saya saat belajar flutter. Sangat menyenangkan dapat belajar flutter dengan mudah dan menarik',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                ),
-              ),
-              Stack(
-                children: [
-                  Text(
-                    '$_counter',
-                    style: TextStyle(
-                      fontSize: 40,
-                      foreground: Paint()
-                        ..style = PaintingStyle.stroke
-                        ..strokeWidth = 6
-                        ..color = Colors.blue,
+      body: SingleChildScrollView(
+        child: Container(
+            padding: EdgeInsets.all(4.0),
+            margin: EdgeInsets.all(16.0),
+            child: Center(
+              // Center is a layout widget. It takes a single child and positions it
+              // in the middle of the parent.
+              child: Column(
+                // Column is also a layout widget. It takes a list of children and
+                // arranges them vertically. By default, it sizes itself to fit its
+                // children horizontally, and tries to be as tall as its parent.
+                //
+                // Invoke "debug painting" (press "p" in the console, choose the
+                // "Toggle Debug Paint" action from the Flutter Inspector in Android
+                // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
+                // to see the wireframe for each widget.
+                //
+                // Column has various properties to control how it sizes itself and
+                // how it positions its children. Here we use mainAxisAlignment to
+                // center the children vertically; the main axis here is the vertical
+                // axis because Columns are vertical (the cross axis would be
+                // horizontal).
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.all(16.0),
+                    height: 150,
+                    width: 150,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/a.jpg'),
+                          fit: BoxFit.cover,
+                        ),
+                        shape: BoxShape.circle
                     ),
                   ),
-                  // Solid text as fill.
+                  Text(
+                    'You have pushed the button this many times:',
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blueAccent),
+                  ),
                   Text(
                     '$_counter',
-                    style: TextStyle(
-                      fontSize: 40,
-                      color: Colors.lightBlueAccent,
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      Fluttertoast.showToast(
+                          msg: "Text dipilih",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.blue,
+                          textColor: Colors.white,
+                          fontSize: 16.0
+                      );
+                    },
+                    child: Text(
+                      'Ini Text Pertama Saya saat belajar flutter. Sangat menyenangkan dapat belajar flutter dengan mudah dan menarik',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
                     ),
+                  ),
+                  Stack(
+                    children: [
+                      Text(
+                        '$_counter',
+                        style: TextStyle(
+                          fontSize: 40,
+                          foreground: Paint()
+                            ..style = PaintingStyle.stroke
+                            ..strokeWidth = 6
+                            ..color = Colors.blue,
+                        ),
+                      ),
+                      // Solid text as fill.
+                      Text(
+                        '$_counter',
+                        style: TextStyle(
+                          fontSize: 40,
+                          color: Colors.lightBlueAccent,
+                        ),
+                      ),
+                    ],
+                  ),
+                  TextField(
+                    controller: myController,
+                    decoration: new InputDecoration(
+                        border: new OutlineInputBorder(
+                          borderRadius: const BorderRadius.all(
+                            const Radius.circular(10.0),
+                          ),
+                        ),
+                        filled: true,
+                        hintStyle: new TextStyle(color: Colors.grey[800]),
+                        hintText: "Insert Your Number",
+                        fillColor: Colors.white
+                    ),
+                    keyboardType: TextInputType.number,
+                    textAlign: TextAlign.center,
+                  ),
+                  CachedNetworkImage(
+                    imageUrl: "https://cdn.pixabay.com/photo/2019/11/10/17/36/indonesia-4616370_1280.jpg",
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Text("Koneksi Error"),
                   ),
                 ],
               ),
-              TextField(
-                controller: myController,
-                decoration: new InputDecoration(
-                    border: new OutlineInputBorder(
-                      borderRadius: const BorderRadius.all(
-                        const Radius.circular(10.0),
-                      ),
-                    ),
-                    filled: true,
-                    hintStyle: new TextStyle(color: Colors.grey[800]),
-                    hintText: "Insert Your Number",
-                    fillColor: Colors.white
-                ),
-                keyboardType: TextInputType.number,
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        )
+            )
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,// This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
