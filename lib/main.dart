@@ -61,6 +61,18 @@ class _MyHomePageState extends State<MyHomePage> {
   String _selectedItem = 'Sun';
   List _options = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final List gambar = [
+    "https://firebasestorage.googleapis.com/v0/b/kedirilagi-17c91.appspot.com/o/imagesPage%2FAir%20Terjun%20Dolo.jpg?alt=media&token=afaa3e5b-810b-4295-9e19-c72fcdd4dd85",
+    "https://firebasestorage.googleapis.com/v0/b/kedirilagi-17c91.appspot.com/o/imagesPage%2FAir%20terjun%20Irenggolo.jpg?alt=media&token=73111485-2e49-4fac-b081-26a7e6aa4f0b",
+    "https://firebasestorage.googleapis.com/v0/b/kedirilagi-17c91.appspot.com/o/imagesPage%2FCandi%20Setono%20Gedong.jpg?alt=media&token=1c5296fb-71f7-4b57-9ffd-f28df95fbe0c",
+    "https://firebasestorage.googleapis.com/v0/b/kedirilagi-17c91.appspot.com/o/imagesPage%2FCandi%20Surawana.JPG?alt=media&token=5614c53c-41b2-4620-ac7a-163848d0f773",
+  ];
+  final List namagambar = [
+    "Air Terjun Dolo",
+    "Air terjun Irenggolo",
+    "Candi Setono Gedong",
+    "Candi Surawana"
+  ];
 
   void _incrementCounter() {
     setState(() {
@@ -167,15 +179,35 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.all(16.0),
                     height: 150,
-                    width: 150,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/a.jpg'),
-                          fit: BoxFit.cover,
-                        ),
-                        shape: BoxShape.circle
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index){
+                        return Card(
+                          child: Container(
+                            margin: EdgeInsets.all(16.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                Fluttertoast.showToast(
+                                    msg: namagambar[index],
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.blue,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0
+                                );
+                              },
+                              child: CachedNetworkImage(
+                                imageUrl: gambar[index],
+                                placeholder: (context, url) => CircularProgressIndicator(),
+                                errorWidget: (context, url, error) => Text("Koneksi Error"),
+                              ),
+                            )
+                          ),
+                        );
+                      },
+                      itemCount: gambar.length,
                     ),
                   ),
                   Text(
@@ -260,7 +292,7 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,// This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,// This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
