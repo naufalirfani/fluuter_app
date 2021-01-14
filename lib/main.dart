@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
+
+import 'login.dart';
 
 void main() {
   runApp(MyApp());
@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(title: 'BelajarFlutter'),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -92,6 +93,13 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       }
     });
+  }
+
+  void _newPage(){
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Login()),
+    );
   }
 
   @override
@@ -179,29 +187,45 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    height: 150,
+                    height: 220,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index){
                         return Card(
                           child: Container(
+                            width: 150,
                             margin: EdgeInsets.all(16.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                Fluttertoast.showToast(
-                                    msg: namagambar[index],
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.BOTTOM,
-                                    timeInSecForIosWeb: 1,
-                                    backgroundColor: Colors.blue,
-                                    textColor: Colors.white,
-                                    fontSize: 16.0
-                                );
-                              },
-                              child: CachedNetworkImage(
-                                imageUrl: gambar[index],
-                                placeholder: (context, url) => CircularProgressIndicator(),
-                                errorWidget: (context, url, error) => Text("Koneksi Error"),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  GestureDetector(
+                                    onTap: () {
+                                      Fluttertoast.showToast(
+                                          msg: namagambar[index],
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.blue,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0
+                                      );
+                                    },
+                                    child: CachedNetworkImage(
+                                      imageUrl: gambar[index],
+                                      placeholder: (context, url) => CircularProgressIndicator(),
+                                      errorWidget: (context, url, error) => Text("Koneksi Error"),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 0.0, top: 8.0, right: 0.0, bottom: 0.0),
+                                    child: Text(
+                                      namagambar[index],
+                                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 16.0),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  )
+                                ],
                               ),
                             )
                           ),
@@ -282,6 +306,26 @@ class _MyHomePageState extends State<MyHomePage> {
                     placeholder: (context, url) => CircularProgressIndicator(),
                     errorWidget: (context, url, error) => Text("Koneksi Error"),
                   ),
+                  Padding(
+                      padding: EdgeInsets.all(16.0),
+                    child: MaterialButton(
+                      height: 50.0,
+                      minWidth: double.infinity,
+                      color: Colors.redAccent,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16.0),
+                      ),
+                      child: new Text(
+                        "New Page",
+                        style: new TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                      onPressed: () => {_newPage()},
+                      splashColor: Colors.redAccent,
+                    ),
+                  )
                 ],
               ),
             )
